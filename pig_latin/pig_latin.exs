@@ -31,6 +31,9 @@ defmodule PigLatin do
   Words beginning with vowels (aeiou) should have "ay" added to the end of the
   word.
   Some groups of letters are treated like consonants, including "ch", "qu",
+
+
+
   "squ", "th", "thr", and "sch".
   Some groups are treated like vowels, including "yt" and "xr".
   """
