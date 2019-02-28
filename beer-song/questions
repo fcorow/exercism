@@ -1,0 +1,5 @@
+Hello,
+I am submiting a new not working version.
+I have tried to use different ways to build the string but I still don't understand why the assert fail.
+I compared the string and they are identical so it is probably related to the way the assert returns but I don't get it.
+Can you explain what I am doing wrong?
