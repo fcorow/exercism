@@ -5,10 +5,6 @@ defmodule ProteinTranslation do
   @spec of_rna(String.t()) :: {atom, list(String.t())}
   def of_rna(rna) do
     list = List.flatten(Regex.scan(~r/.../, rna))
-    # IO.inspect(list)
-    # test = Enum.find_index(list, &is_stop/1)
-    # IO.inspect(test)
-    # IO.inspect(Enum.map(list, &of_codon/1))
 
     results =
       {:ok,
@@ -27,9 +23,6 @@ defmodule ProteinTranslation do
     else
       results
     end
-
-    # Enum.filter(v, fn x -> x != "STOP" end)
-    # IO.inspect(v)
   end
 
   @doc """
@@ -77,8 +70,3 @@ defmodule ProteinTranslation do
     end
   end
 end
-
-IO.inspect(ProteinTranslation.of_rna("AUGUUUUGG"))
-IO.inspect(ProteinTranslation.of_rna("AUGUUUUAA"))
-IO.inspect(ProteinTranslation.of_rna("UUUROT"))
-IO.inspect(ProteinTranslation.of_rna("CARROT"))
