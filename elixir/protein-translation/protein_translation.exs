@@ -5,8 +5,31 @@ defmodule ProteinTranslation do
   @spec of_rna(String.t()) :: {atom, list(String.t())}
   def of_rna(rna) do
     list = List.flatten(Regex.scan(~r/.../, rna))
-    # {:ok, ~w(Methionine Phenylalanine Tryptophan)}
-    Enum.map(list, &of_codon/1)
+    # IO.inspect(list)
+    # test = Enum.find_index(list, &is_stop/1)
+    # IO.inspect(test)
+    # IO.inspect(Enum.map(list, &of_codon/1))
+
+    results =
+      {:ok,
+       for(
+         {_k, v} <-
+           Enum.map(list, &of_codon/1)
+           |> Enum.reject(fn x -> x == {:ok, "STOP"} end)
+           |> Enum.slice(0, 3),
+         do: v
+       )}
+
+    invalid_rna = Enum.any?(elem(results, 1), fn x -> x == "invalid codon" end)
+
+    if invalid_rna do
+      {:error, "invalid RNA"}
+    else
+      results
+    end
+
+    # Enum.filter(v, fn x -> x != "STOP" end)
+    # IO.inspect(v)
   end
 
   @doc """
@@ -50,9 +73,12 @@ defmodule ProteinTranslation do
       "UAA" -> {:ok, "STOP"}
       "UAG" -> {:ok, "STOP"}
       "UGA" -> {:ok, "STOP"}
-      _ -> "toto"
+      _ -> {:error, "invalid codon"}
     end
   end
 end
 
 IO.inspect(ProteinTranslation.of_rna("AUGUUUUGG"))
+IO.inspect(ProteinTranslation.of_rna("AUGUUUUAA"))
+IO.inspect(ProteinTranslation.of_rna("UUUROT"))
+IO.inspect(ProteinTranslation.of_rna("CARROT"))
