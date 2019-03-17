@@ -13,10 +13,7 @@ defmodule RotationalCipher do
   @lower ?a..?z
 
   @spec rotate(text :: String.t(), shift :: integer) :: String.t()
-  # faire un finder de lettre
-  # ignorer tout ce qui n est pas une lettre
-  # attention aux uppercases
-  # iterer sur la string
+
   def rotate(text, shift) do
     text
     |> to_charlist
