@@ -13,27 +13,16 @@ defmodule ListOps do
   def count([_head | tail]), do: 1 + count(tail)
 
   @spec reverse(list) :: list
-  def reverse([]), do: []
-  # def reverse([_a]), do: [_a]
-  # def reverse([a, b]), do: [b, a]
-  def reverse([head | []]) do
-    Logger.info("head_empty")
-    [head]
-  end
-
-  def reverse([head | tail]) do
-    Logger.info("head_tail")
-    reverse(tail)
-  end
+  defp acc_reverse([], acc), do: acc
+  defp acc_reverse([head | tail], acc), do: acc_reverse(tail, [head | acc])
+  def reverse(l), do: acc_reverse(l, [])
 
   @spec map(list, (any -> any)) :: list
   def map([], f), do: []
   def map([head | tail], f), do: [f.(head) | map(tail, f)]
 
   @spec filter(list, (any -> as_boolean(term))) :: list
-  def filter([], f) do
-    []
-  end
+  def filter([], f), do: []
 
   def filter([head | tail], f) do
     if f.(head) do
@@ -45,22 +34,15 @@ defmodule ListOps do
 
   @type acc :: any
   @spec reduce(list, acc, (any, acc -> acc)) :: acc
-  def reduce([], acc, f) do
-    acc
-  end
-
-  def reduce([head | tail], acc, f) do
-    reduce(tail, f.(head, acc), f)
-  end
+  def reduce([], acc, f), do: acc
+  def reduce([head | tail], acc, f), do: reduce(tail, f.(head, acc), f)
 
   @spec append(list, list) :: list
-  def append(a, b) do
-  end
+  def append([], []), do: []
+  def append([], [head | tail]), do: [head | tail]
+  def append([head | tail], l), do: [head | append(tail, l)]
 
   @spec concat([[any]]) :: [any]
-  def concat(ll) do
-  end
+  def concat([]), do: []
+  def concat([head_list | tail]), do: append(head_list, concat(tail))
 end
-
-list = [1, 2, 3]
-IO.inspect(ListOps.reverse(list))

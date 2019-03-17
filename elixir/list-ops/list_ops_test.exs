@@ -32,12 +32,12 @@ defmodule ListOpsTest do
     assert L.reverse([]) == []
   end
 
-  @tag :pending
+  # @tag :pending
   test "reverse of normal list" do
     assert L.reverse([1, 3, 5, 7]) == [7, 5, 3, 1]
   end
 
-  @tag :pending
+  # @tag :pending
   test "reverse of huge list" do
     assert L.reverse(Enum.to_list(1..1_000_000)) == Enum.to_list(1_000_000..1)
   end
@@ -88,53 +88,53 @@ defmodule ListOpsTest do
              Enum.reduce(1..1_000_000, 0, &(&1 + &2))
   end
 
-  @tag :pending
+  # @tag :pending
   test "reduce with non-commutative function" do
     assert L.reduce([1, 2, 3, 4], 10, fn x, acc -> acc - x end) == 0
   end
 
-  @tag :pending
+  # @tag :pending
   test "append of empty lists" do
     assert L.append([], []) == []
   end
 
-  @tag :pending
+  # @tag :pending
   test "append of empty and non-empty list" do
     assert L.append([], [1, 2, 3, 4]) == [1, 2, 3, 4]
   end
 
-  @tag :pending
+  # @tag :pending
   test "append of non-empty and empty list" do
     assert L.append([1, 2, 3, 4], []) == [1, 2, 3, 4]
   end
 
-  @tag :pending
+  # @tag :pending
   test "append of non-empty lists" do
     assert L.append([1, 2, 3], [4, 5]) == [1, 2, 3, 4, 5]
   end
 
-  @tag :pending
+  # @tag :pending
   test "append of huge lists" do
     assert L.append(Enum.to_list(1..1_000_000), Enum.to_list(1_000_001..2_000_000)) ==
              Enum.to_list(1..2_000_000)
   end
 
-  @tag :pending
+  # @tag :pending
   test "concat of empty list of lists" do
     assert L.concat([]) == []
   end
 
-  @tag :pending
+  # @tag :pending
   test "concat of normal list of lists" do
     assert L.concat([[1, 2], [3], [], [4, 5, 6]]) == [1, 2, 3, 4, 5, 6]
   end
 
-  @tag :pending
+  # @tag :pending
   test "concat of huge list of small lists" do
     assert L.concat(Enum.map(1..1_000_000, &[&1])) == Enum.to_list(1..1_000_000)
   end
 
-  @tag :pending
+  # @tag :pending
   test "concat of small list of huge lists" do
     assert L.concat(Enum.map(0..9, &Enum.to_list((&1 * 100_000 + 1)..((&1 + 1) * 100_000)))) ==
              Enum.to_list(1..1_000_000)
