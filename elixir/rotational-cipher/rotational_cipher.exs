@@ -1,6 +1,4 @@
 defmodule RotationalCipher do
-  require Logger
-
   @doc """
   Given a plaintext and amount to shift by, return a rotated string.
 
@@ -8,26 +6,61 @@ defmodule RotationalCipher do
   iex> RotationalCipher.rotate("Attack at dawn", 13)
   "Nggnpx ng qnja"
   """
-  # @cypher_pattern "abcdefghijklmnopqrstuvwxyz"
-  @upper ?A..?Z
-  @lower ?a..?z
+
 
   @spec rotate(text :: String.t(), shift :: integer) :: String.t()
-
   def rotate(text, shift) do
-    text
-    |> to_charlist
-    |> Enum.map(&rotate_letter(&1, shift))
-    |> to_string
+    shiftedstring = Enum.map(String.to_charlist(text), &find_rotation(&1,shift))
+    shiftedstring = List.to_string(shiftedstring)
+    IO.inspect(shiftedstring, label: "shifted string")
+
   end
 
-  defp rotate_letter(char, shift) do
-    cond do
-      char in @upper -> rem(char - ?A + shift, 26) + ?A
-      char in @lower -> rem(char - ?a + shift, 26) + ?a
-      true -> char
-    end
+  def is_uppercase(x) do
+
+    x == String.upcase(x)
+
   end
+
+  def is_alpha(x) do
+    String.match?(x, ~r/^[[:alpha:]]+$/)
+  end
+
+  def find_rotation(char,offset) do
+
+    need_tranform = is_alpha(List.to_string([char]))
+    case need_tranform do
+      true ->
+        IO.inspect(char)
+        up = is_uppercase(List.to_string([char]))
+        alpha = "abcdefghijklmnopqrstuvwxyz"
+        IO.inspect(alpha)
+        char = String.downcase(List.to_string([char]))
+        IO.inspect(char, label: "after lower case")
+        {index,_length} = :binary.match(alpha,List.to_string([char]))
+        IO.inspect(index, label: "the index is")
+        rotation = (index + offset)
+        IO.inspect(rotation)
+        rotated_char =
+        cond  do
+          rotation < 26 -> String.at(alpha, index+offset)
+          rotation >= 26  -> String.at(alpha, (index+offset) - 26)
+        end
+        case up do
+          true -> rotated_char = String.upcase(List.to_string([rotated_char]))
+          _ -> rotated_char
+        end
+      _ -> char
+    end
+
+  end
+
+
+
+
 end
 
-IO.inspect(RotationalCipher.rotate("g", 5))
+IO.inspect(RotationalCipher.rotate("abcde",3))
+IO.puts(RotationalCipher.rotate("cestuntext",26))
+IO.puts(RotationalCipher.rotate("aBcDe",3))
+
