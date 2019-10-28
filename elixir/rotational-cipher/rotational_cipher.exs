@@ -12,35 +12,28 @@ defmodule RotationalCipher do
   def rotate(text, shift) do
     shiftedstring = Enum.map(String.to_charlist(text), &find_rotation(&1,shift))
     shiftedstring = List.to_string(shiftedstring)
-    IO.inspect(shiftedstring, label: "shifted string")
+
 
   end
 
-  def is_uppercase(x) do
-
+  defp is_uppercase(x) do
     x == String.upcase(x)
-
   end
 
-  def is_alpha(x) do
+  defp is_alpha(x) do
     String.match?(x, ~r/^[[:alpha:]]+$/)
   end
 
-  def find_rotation(char,offset) do
+  defp find_rotation(char,offset) do
 
     need_tranform = is_alpha(List.to_string([char]))
     case need_tranform do
       true ->
-        IO.inspect(char)
         up = is_uppercase(List.to_string([char]))
         alpha = "abcdefghijklmnopqrstuvwxyz"
-        IO.inspect(alpha)
         char = String.downcase(List.to_string([char]))
-        IO.inspect(char, label: "after lower case")
         {index,_length} = :binary.match(alpha,List.to_string([char]))
-        IO.inspect(index, label: "the index is")
         rotation = (index + offset)
-        IO.inspect(rotation)
         rotated_char =
         cond  do
           rotation < 26 -> String.at(alpha, index+offset)
@@ -59,8 +52,4 @@ defmodule RotationalCipher do
 
 
 end
-
-IO.inspect(RotationalCipher.rotate("abcde",3))
-IO.puts(RotationalCipher.rotate("cestuntext",26))
-IO.puts(RotationalCipher.rotate("aBcDe",3))
 
